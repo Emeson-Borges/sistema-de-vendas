@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Models\Produto;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
+
 
 class DatabaseSeeder extends Seeder
 {

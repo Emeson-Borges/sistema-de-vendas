@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Produto;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Categoria;
-use Illuminate\Support\Str;
 
-class ProdutoController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +16,7 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        //
-        $produtos = Produto::Paginate(8);
-        $categorias = Categoria::all();
-        return view('admin.produtos', compact('produtos'));
-       
+        //     
         
     }
 
@@ -43,17 +39,13 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         //
-        $produto = $request->all();
+        $user = $request->all();
+        $user['password'] = bcrypt($request->password);
+        $user = User::create($user);
 
-        if($request->image) {
-           $produto['image'] = $request->image->store('produtos');
-        }
+        Auth::login($user);
 
-        $produto['slug'] = Str::slug($request->nome);
-
-        $produto = Produto::create($produto);
-
-        return redirect()->route('admin.produtos')->with('Sucesso', 'Produto cadastrado com sucesso');
+        return redirect()->route('admin.dashboard');
     }
 
     /**
@@ -99,8 +91,5 @@ class ProdutoController extends Controller
     public function destroy($id)
     {
         //
-        $produto = Produto::find($id);
-        $produto->delete;
-        return redirect()->route('admin.produtos')->with('Sucesso', 'Produto removido com sucesso');
     }
 }

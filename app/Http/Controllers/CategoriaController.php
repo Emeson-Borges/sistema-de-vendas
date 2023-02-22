@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class CategoriaController extends Controller
 {
@@ -14,7 +16,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**

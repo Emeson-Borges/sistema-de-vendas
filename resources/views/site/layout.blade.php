@@ -10,15 +10,51 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+ 
+  @php
+  use App\Models\Categoria;
+  $categoriasMenu = Categoria::all();
+  view()->share('categoriasMenu', $categoriasMenu);  
+  @endphp
+  
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+     @foreach($categoriasMenu as $categoriaM)
+     <li><a href="{{ route('site.categoria', $categoriaM->id) }}">{{ $categoriaM->nome }}</a></li>
+     <li class="divider" tabindex="-1"></li>
+     @endforeach
+   </ul>
+ 
+  <!-- Dropdown Structure -->
+  <ul id='dropdown2' class='dropdown-dcontent'>
+    <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+    <li><a href="{{ route('login.logout') }}">Logout</a></li>
+    <li class="divider" tabindex="-1"></li>
+
+  </ul>
 
   <nav class="blue">
-    <div class="nav-wrapper container">
-      <a href="#" class="brand-logo center">CRED CARIÚS</a>
+    <div class="nav-wrapper center">
+      <a href="{{ route('site.index') }}" class="brand-logo center color red">CRED CARIÚS</a>
+      
       <ul id="nav-mobile" class="left">
-        <li><a href="">Home</a></li>
-        <li><a href="">Carrinho</a></li>
-        
+        <li><a href="{{ route('site.index') }}">Home</a></li>
+        <li><a href="" class="dropdown-trigger" data-target='dropdown1'> Categorias <i class="material-icons right">expand_more</i></a></li>
+        <li><a href="{{ route('site.carrinho') }}">Carrinho <span class="new badge blue" data-badge-caption=""> {{\Cart::getContent()->count()}} </span></a></li>
+        <li><a href="">Contatos</a></li>
+        <li><a href="">Localização</a></li> 
       </ul>
+
+      @auth
+      <ul id="nav-mobile" class="rigth">
+        <li><a href="" class="dropdown-trigger" data-target='dropdown2'> Olá {{ auth()->user()->firstName }} <i class="material-icons right">expand_more</i></a></li> 
+      </ul>
+      @else
+      <ul id="nav-mobile" class="rigth">
+        <li><a href="{{ route('login.form') }}"> Login <i class="material-icons right">lock</i></a></li> 
+      </ul>
+      @endauth
+
     </div>
   </nav>
 
@@ -28,6 +64,17 @@
 
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script>
+/*Dropdown*/
+var elemDrop = document.querySelectorAll('.dropdown-trigger');
+var instanceDrop = M.Dropdown.init(elemDrop, {
+  coverTrigger: false,
+  constrainWidth: false
+});
+
+</script>
+
 </body>
 </html>
 

@@ -1,8 +1,16 @@
 <?php
 
 namespace App\Providers;
+namespace App\Providers\GateServiceProvider;
+//namespace App\Providers\AppServiceProvider;
 
+
+use Illuminate\Support\Facades\Gate;
+//use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\ServiceProvider;
+use App\Providers\GateServiceProvider;
+use App\Models\Categoria;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +32,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        // $categoriasMenu = Categoria::all();
+        // view()->share('categoriasMenu', $categoriasMenu);
+    
+        
     }
 }
